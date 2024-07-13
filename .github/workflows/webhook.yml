@@ -1,0 +1,29 @@
+on:
+  repository_dispatch:
+    types: [test_trigger]
+
+jobs:
+  log-the-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: access by env
+        run: |
+          echo "Log level: $LEVEL"
+          echo "Tags: $TAGS"
+          echo "Environment: $ENVIRONMENT"
+        env:
+          LEVEL: ${{ github.event.client_payload.logLevel }}
+          TAGS: ${{ github.event.client_payload.tags }}
+          ENVIRONMENT: ${{ github.event.client_payload.environment }}
+      - name: access by inputs # これは使えない
+        if: inputs.tags
+        run: |
+          echo "Log level: ${{ inputs.logLevel }}"
+          echo "Tags: ${{ inputs.tags }}"
+          echo "Environment: ${{ inputs.environment }}"
+      - name: access by github.event.client_payload
+        if: github.event.client_payload.tags # boolも文字列
+        run: |
+          echo "Log level: ${{ github.event.client_payload.logLevel }}"
+          echo "Tags: ${{ github.event.client_payload.tags }}"
+          echo "Environment: ${{ github.event.client_payload.environment }}"

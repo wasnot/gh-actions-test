@@ -1,0 +1,10 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  kick_reusable:
+    uses: ./.github/workflows/reusable.yml
+    with:
+      logLevel: debug
+      tags: true
+      environment: development
