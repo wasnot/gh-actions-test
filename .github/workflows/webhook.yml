@@ -27,3 +27,4 @@ jobs:
           echo "Log level: ${{ github.event.client_payload.logLevel }}"
           echo "Tags: ${{ github.event.client_payload.tags }}"
           echo "Environment: ${{ github.event.client_payload.environment }}"
+          echo "json: ${{ toJson(github.event.client_payload) }}"
