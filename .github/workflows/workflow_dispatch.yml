@@ -1,0 +1,46 @@
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: "Log level"
+        required: true
+        default: "warning"
+        type: choice
+        options:
+          - info
+          - warning
+          - debug
+      tags:
+        description: "Test scenario tags"
+        required: false
+        type: boolean
+      environment:
+        description: "Environment to run tests against"
+        type: environment
+        required: true
+
+jobs:
+  log-the-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: access by env
+        run: |
+          echo "Log level: $LEVEL"
+          echo "Tags: $TAGS"
+          echo "Environment: $ENVIRONMENT"
+        env:
+          LEVEL: ${{ inputs.logLevel }}
+          TAGS: ${{ inputs.tags }}
+          ENVIRONMENT: ${{ inputs.environment }}
+      - name: access by inputs
+        if: inputs.tags # boolはbool
+        run: |
+          echo "Log level: ${{ inputs.logLevel }}"
+          echo "Tags: ${{ inputs.tags }}"
+          echo "Environment: ${{ inputs.environment }}"
+      - name: access by github.event.input
+        if: github.event.inputs.tags == 'true' # boolも文字列
+        run: |
+          echo "Log level: ${{ github.event.inputs.logLevel }}"
+          echo "Tags: ${{ github.event.inputs.tags }}"
+          echo "Environment: ${{ github.event.inputs.environment }}"
