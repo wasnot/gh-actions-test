@@ -1,0 +1,17 @@
+name: "test job"
+on:
+  pull_request:
+    types: [opened, reopend]
+    branches:
+      - "main"
+
+jobs:
+  wait_uitest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo
+        run: |
+          echo "Waiting for uitest job to finish"
+          echo "ref: ${{ github.ref_name }}"
+          echo "base ref: ${{ github.base_ref }}"
+          echo "head ref: ${{ github.head_ref }}"

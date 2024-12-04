@@ -1,0 +1,11 @@
+name: "test push job"
+on: [push]
+
+jobs:
+  push_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo
+        run: |
+          echo "Waiting for uitest job to finish"
+          echo "ref: ${{ github.ref_name }}"
